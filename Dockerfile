@@ -1,5 +1,10 @@
 FROM registry.access.redhat.com/ubi8/ubi:latest AS build
 
+# Git identifier to checkout
+ARG TNF_VERSION
+ARG TNF_VERSION_AS_COMMIT_SHA=false
+ARG TNF_SRC_URL=https://github.com/test-network-function/test-network-function
+
 # golang 1.14.12 as it's the only version available on yum at time of writing.
 ENV GOLANG_VERSION=1.14.12
 ENV GOLANGCI_VERSION=v1.32.2
@@ -19,7 +24,7 @@ RUN yum install -y golang-${GOLANG_VERSION} jq make git
 
 # Build oc from source
 ADD ${OC_SRC_URL} ${TEMP_DIR}
-RUN mkdir ${OC_SRC_DIR} && \ 
+RUN mkdir ${OC_SRC_DIR} && \
 	tar -xf ${TEMP_DIR}/${OC_SRC_ARCHIVE} -C ${OC_SRC_DIR} --strip-components=1 && \
 	cd ${OC_SRC_DIR} && \
 	make oc && \
@@ -31,10 +36,8 @@ RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/i
 # Add go binary directory to $PATH
 ENV PATH="/root/go/bin:${PATH}"
 
-# Git identifier to checkout
-ARG TNF_VERSION
 # Pull the required version of TNF
-RUN git clone --depth=1 --branch=${TNF_VERSION} https://github.com/test-network-function/test-network-function ${TNF_SRC_DIR}
+RUN git clone --depth=1 --single-branch --branch=${TNF_VERSION} ${TNF_SRC_URL} ${TNF_SRC_DIR}
 
 # Build TNF binary
 WORKDIR ${TNF_SRC_DIR}
