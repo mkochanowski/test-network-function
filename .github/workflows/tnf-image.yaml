@@ -106,6 +106,28 @@ jobs:
         with:
           working_directory: cnf-certification-test-partner
 
+      # Debug
+
+      - name: Set up Go 1.15
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.15
+
+      - name: Execute `make mocks`
+        run: go get github.com/golang/mock/mockgen && make mocks
+
+      - name: Install ginkgo
+        run: go get -u github.com/onsi/ginkgo/ginkgo
+
+      - name: Execute `make build`
+        run: make build
+
+      - name: 'Test: Run diagnostic test suite'
+        run: ./run-cnf-suites.sh diagnostic
+
+      - name: 'Test: Run generic test suite'
+        run: ./run-cnf-suites.sh generic
+
       # Perform tests.
 
       - name: Create required TNF config files and directories
