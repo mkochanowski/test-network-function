@@ -1,5 +1,7 @@
 name: 'Publish the `test-network-function` image (latest release only)'
 on:
+  # Debug only
+  push:
   # Run the workflow when a new release gets published
   release:
     types: [published]
@@ -22,6 +24,7 @@ env:
   CURRENT_VERSION_GENERIC_BRANCH: 2.0.x
   TNF_MINIKUBE_ONLY: true
   TNF_ENABLE_CONFIG_AUTODISCOVER: true
+  TNF_CONTAINER_CLIENT: docker
   TNF_CONFIG_DIR: /tmp/tnf/config
   TNF_OUTPUT_DIR: /tmp/tnf/output
   TNF_SRC_URL: 'https://github.com/${{ github.repository }}'
@@ -30,7 +33,7 @@ env:
 jobs:
   get-latest-tnf-version-number:
     name: 'Get the version number of the latest release'
-    if: ${{ github.repository_owner == 'test-network-function' }}
+    # if: ${{ github.repository_owner == 'test-network-function' }}
     runs-on: ubuntu-20.04
     outputs:
       TNF_VERSION: ${{ steps.set_tnf_version.outputs.version_number }}
