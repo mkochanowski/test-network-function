@@ -2,7 +2,8 @@ name: Test Incoming Changes
 
 on:
   push:
-    branches: [ main ]
+    # Debug only
+    # branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -70,7 +71,7 @@ jobs:
 
   smoke-tests:
     name: Run Smoke Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       SHELL: /bin/bash
       KUBECONFIG: '/home/runner/.kube/config'

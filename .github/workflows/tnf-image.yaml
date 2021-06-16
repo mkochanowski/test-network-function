@@ -22,9 +22,9 @@ env:
   IMAGE_NAME: testnetworkfunction/test-network-function
   IMAGE_TAG: latest
   CURRENT_VERSION_GENERIC_BRANCH: 2.0.x
+  # TNF_CONTAINER_CLIENT: docker
   TNF_MINIKUBE_ONLY: true
   TNF_ENABLE_CONFIG_AUTODISCOVER: true
-  TNF_CONTAINER_CLIENT: docker
   TNF_CONFIG_DIR: /tmp/tnf/config
   TNF_OUTPUT_DIR: /tmp/tnf/output
   TNF_SRC_URL: 'https://github.com/${{ github.repository }}'
