@@ -16,7 +16,7 @@ env:
   TNF_CONFIG_DIR: /tmp/tnf/config
   TNF_OUTPUT_DIR: /tmp/tnf/output
   TNF_SRC_URL: 'https://github.com/${{ github.repository }}'
-  TESTING_CMD_PARAMS: '-n host -i $IMAGE_NAME:$IMAGE_TAG -t $TNF_CONFIG_DIR -o $TNF_OUTPUT_DIR'
+  TESTING_CMD_PARAMS: '-n host -i localhost/$IMAGE_NAME:$IMAGE_TAG -t $TNF_CONFIG_DIR -o $TNF_OUTPUT_DIR'
 
 jobs:
   lint:
@@ -74,7 +74,7 @@ jobs:
 
   smoke-tests:
     name: Run Smoke Tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       SHELL: /bin/bash
       KUBECONFIG: '/home/runner/.kube/config'
