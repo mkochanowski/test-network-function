@@ -81,15 +81,6 @@ jobs:
         with:
           ref: ${{ env.TNF_VERSION }}
 
-      - name: Build the `test-network-function` image
-        run: |
-          docker build --no-cache \
-            -t ${IMAGE_NAME}:${IMAGE_TAG} \
-            -t ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} \
-            -t ${REGISTRY}/${IMAGE_NAME}:${TNF_VERSION} \
-            --build-arg TNF_VERSION=${TNF_VERSION} \
-            --build-arg TNF_SRC_URL=${TNF_SRC_URL} .
-
       # Create a minikube cluster for testing.
 
       - name: Check out `cnf-certification-test-partner`
@@ -108,27 +99,36 @@ jobs:
 
       # Debug
 
-      - name: Set up Go 1.15
-        uses: actions/setup-go@v2
-        with:
-          go-version: ^1.15
+      # - name: Set up Go 1.15
+      #   uses: actions/setup-go@v2
+      #   with:
+      #     go-version: ^1.15
 
-      - name: Execute `make mocks`
-        run: go get github.com/golang/mock/mockgen && make mocks
+      # - name: Execute `make mocks`
+      #   run: go get github.com/golang/mock/mockgen && make mocks
 
-      - name: Install ginkgo
-        run: go get -u github.com/onsi/ginkgo/ginkgo
+      # - name: Install ginkgo
+      #   run: go get -u github.com/onsi/ginkgo/ginkgo
 
-      - name: Execute `make build`
-        run: make build
+      # - name: Execute `make build`
+      #   run: make build
 
-      - name: 'Test: Run diagnostic test suite'
-        run: ./run-cnf-suites.sh diagnostic
+      # - name: 'Test: Run diagnostic test suite'
+      #   run: ./run-cnf-suites.sh diagnostic
 
-      - name: 'Test: Run generic test suite'
-        run: ./run-cnf-suites.sh generic
+      # - name: 'Test: Run generic test suite'
+      #   run: ./run-cnf-suites.sh generic
 
-      # Perform tests.
+      - name: Build the `test-network-function` image
+        run: |
+          docker build --no-cache \
+            -t ${IMAGE_NAME}:${IMAGE_TAG} \
+            -t ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} \
+            -t ${REGISTRY}/${IMAGE_NAME}:${TNF_VERSION} \
+            --build-arg TNF_VERSION=${TNF_VERSION} \
+            --build-arg TNF_SRC_URL=${TNF_SRC_URL} .
+
+      # Perform smoke tests using a TNF container.
 
       - name: Create required TNF config files and directories
         run: |
