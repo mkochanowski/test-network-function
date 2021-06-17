@@ -34,7 +34,7 @@ jobs:
   get-latest-tnf-version-number:
     name: 'Get the version number of the latest release'
     # if: ${{ github.repository_owner == 'test-network-function' }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       TNF_VERSION: ${{ steps.set_tnf_version.outputs.version_number }}
 
@@ -59,7 +59,7 @@ jobs:
   test-and-push-tnf-image:
     name: 'Test and push the `test-network-function` image'
     needs: [get-latest-tnf-version-number]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       SHELL: /bin/bash
       KUBECONFIG: '/home/runner/.kube/config'
