@@ -66,6 +66,9 @@ jobs:
       TNF_VERSION: ${{ needs['get-latest-tnf-version-number'].outputs.TNF_VERSION }}
 
     steps:
+      - name: Display podman version
+        run: podman version
+
       - name: Ensure $TNF_VERSION and $IMAGE_TAG are set
         run: '[[ -n "$TNF_VERSION" ]] && [[ -n "$IMAGE_TAG" ]]'
 
