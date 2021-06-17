@@ -34,6 +34,9 @@ jobs:
         with:
           ref: ${{ github.sha }}
 
+      - name: Display git log
+        run: git log -1
+
       - name: Rebuild mocks
         run: go get github.com/golang/mock/mockgen && make mocks
 
@@ -137,8 +140,9 @@ jobs:
 
       - name: Create required TNF config files and directories
         run: |
-          mkdir -p $TNF_CONFIG_DIR $TNF_OUTPUT_DIR
-          cp test-network-function/*.yml $TNF_CONFIG_DIR
+          mkdir -p ${TNF_CONFIG_DIR} ${TNF_OUTPUT_DIR}
+          cp test-network-function/*.yml ${TNF_CONFIG_DIR}
+          ls -al ${TNF_CONFIG_DIR}
         shell: bash
 
       - name: 'Test: Run diagnostic test suite in a TNF container'
